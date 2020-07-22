@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+   <head>
+       <title>Kubernetes Microservice Demo</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+        <style th:inline="text">
+            body {
+                background-color: [[${bgcolor}]];
+            }
+        </style>
+   </head>
+   <body>
+       <div style="margin-left: auto; margin-right: auto; width: 50%; text-align: center;"><h1><span th:text="${message}" /></h1></div>
+      
+   </body>
+</html>
