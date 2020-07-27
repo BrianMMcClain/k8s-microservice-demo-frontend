@@ -29,13 +29,13 @@ public class FrontendController {
 
     private Customization getCustomization() {
         RestTemplate restTemaplte = new RestTemplate();
-        String serviceURI = this.lookupK8sService("k8s-demo-customization-service", "http://localhost:8083");
+        String serviceURI = this.lookupK8sService("k8s-microservice-demo-customize-service", "http://localhost:8083");
         Customization c = restTemaplte.getForObject(serviceURI, Customization.class);
         return c;
     }
     private List<Item> getItems() {
         RestTemplate restTemplate = new RestTemplate();
-        String serviceURI = this.lookupK8sService("k8s-demo-backend-service", "http://localhost:8084");
+        String serviceURI = this.lookupK8sService("k8s-microservice-demo-backend-service", "http://localhost:8084");
         Item[] items = restTemplate.getForObject(serviceURI + "/item", Item[].class);
         return Arrays.asList(items);
     }
