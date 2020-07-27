@@ -1,0 +1,131 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: k8s-microservice-demo-user
+  namespace: default
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: k8s-microservice-demo-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: k8s-microservice-demo-user
+  namespace: default
+
+# Customize Service
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-microservice-demo-customize
+  labels:
+    app: k8s-microservice-demo-customize
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k8s-microservice-demo-customize
+  template:
+    metadata:
+      labels:
+        app: k8s-microservice-demo-customize
+    spec:
+      containers:
+      - name: k8s-microservice-demo-customize
+        image: brianmmcclain/k8s-microservice-demo-customize:0.0.1-SNAPSHOT
+        ports:
+        - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8s-microservice-demo-customize-service
+spec:
+  selector:
+    app: k8s-microservice-demo-customize
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+
+# Backend Service
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-microservice-demo-backend
+  labels:
+    app: k8s-microservice-demo-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k8s-microservice-demo-backend
+  template:
+    metadata:
+      labels:
+        app: k8s-microservice-demo-backend
+    spec:
+      containers:
+      - name: k8s-microservice-demo-backend
+        image: brianmmcclain/k8smicroservicedemobackend:0.0.1-SNAPSHOT
+        ports:
+        - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8s-microservice-demo-backend-service
+spec:
+  selector:
+    app: k8s-microservice-demo-backend
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+
+# Frontend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-microservice-demo-frontend
+  labels:
+    app: k8s-microservice-demo-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k8s-microservice-demo-frontend
+  template:
+    metadata:
+      labels:
+        app: k8s-microservice-demo-frontend
+    spec:
+      serviceAccountName: k8s-microservice-demo-user
+      containers:
+      - name: k8s-microservice-demo-frontend
+        image: brianmmcclain/k8smicroservicedemofrontend:0.0.1-SNAPSHOT
+        ports:
+        - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8s-microservice-demo-frontend-service
+spec:
+  selector:
+    app: k8s-microservice-demo-frontend
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
