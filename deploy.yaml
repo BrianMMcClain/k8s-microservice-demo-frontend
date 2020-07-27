@@ -18,6 +18,16 @@ subjects:
   name: k8s-microservice-demo-user
   namespace: default
 
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: k8s-microservices-demo-customize
+data:
+  application.properties: |-
+    bean.message=Kubernetes Microservice Demo
+    bean.bgcolor=gray
+
 # Customize Service
 ---
 apiVersion: apps/v1
@@ -36,6 +46,7 @@ spec:
       labels:
         app: k8s-microservice-demo-customize
     spec:
+      serviceAccountName: k8s-microservice-demo-user
       containers:
       - name: k8s-microservice-demo-customize
         image: brianmmcclain/k8s-microservice-demo-customize:0.0.1-SNAPSHOT
