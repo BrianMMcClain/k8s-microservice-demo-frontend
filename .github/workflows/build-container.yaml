@@ -19,6 +19,9 @@ jobs:
     - name: Tag Container
       run: docker tag docker.io/library/k8s-microservice-demo-frontend:0.0.1-SNAPSHOT brianmmcclain/k8s-microservice-demo-frontend:0.0.1-SNAPSHOT
     - name: Push Container
-      env:
-        DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
-      run: docker push brianmmcclain/k8s-microservice-demo-frontend:0.0.1-SNAPSHOT
+      uses: docker/build-push-action@v1
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_TOKEN }}
+        repository: brianmmcclain/k8s-microservice-demo-frontend
+        tags: latest
