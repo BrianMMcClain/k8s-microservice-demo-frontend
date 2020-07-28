@@ -14,7 +14,11 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.11
-    - name: Checkout main branch
-      run: git checkout main
     - name: Build Container
       run: ./mvnw spring-boot:build-image
+    - name: Tag Container
+      run: docker tag docker.io/library/k8s-microservice-demo-frontend:0.0.1-SNAPSHOT brianmmcclain/k8s-microservice-demo-frontend:0.0.1-SNAPSHOT
+    - name: Push Container
+      env:
+        DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
+      run: docker push brianmmcclain/k8s-microservice-demo-frontend:0.0.1-SNAPSHOT
