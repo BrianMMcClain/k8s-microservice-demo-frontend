@@ -86,7 +86,7 @@ spec:
     spec:
       containers:
       - name: k8s-microservice-demo-backend
-        image: brianmmcclain/k8smicroservicedemobackend:0.0.1-SNAPSHOT
+        image: brianmmcclain/k8s-microservice-demo-backend:0.0.1-SNAPSHOT
         ports:
         - containerPort: 8080
 
@@ -124,7 +124,7 @@ spec:
       serviceAccountName: k8s-microservice-demo-user
       containers:
       - name: k8s-microservice-demo-frontend
-        image: brianmmcclain/k8smicroservicedemofrontend:0.0.1-SNAPSHOT
+        image: brianmmcclain/k8s-microservice-demo-frontend:0.0.1-SNAPSHOT
         ports:
         - containerPort: 8080
 
