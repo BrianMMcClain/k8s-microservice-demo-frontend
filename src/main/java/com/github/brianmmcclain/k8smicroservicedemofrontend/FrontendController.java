@@ -52,7 +52,7 @@ public class FrontendController {
 
     private Map<String, String>  getCustomizationInfo() {
         RestTemplate restTemplate = new RestTemplate();
-        String serviceURI = this.lookupK8sService("k8s-microservice-demo-backend-service", "http://localhost:8083");
+        String serviceURI = this.lookupK8sService("k8s-microservice-demo-customize-service", "http://localhost:8083");
         String customizationInfo = restTemplate.getForObject(serviceURI + "/info", String.class);
         
         ObjectMapper mapper = new ObjectMapper();
