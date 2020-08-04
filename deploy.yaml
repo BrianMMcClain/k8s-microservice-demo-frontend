@@ -48,6 +48,18 @@ spec:
       #     claimName: mysql-pv-claim
           
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+spec:
+  ports:
+  - port: 5432
+  selector:
+    app: postgres
+  clusterIP: None
+
+---
 apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
 metadata:
@@ -171,7 +183,7 @@ spec:
         image: brianmmcclain/k8s-microservice-demo-backend:0.0.1-SNAPSHOT
         env:
         - name: SPRING_PROFILES_ACTIVE
-          value: mysql
+          value: postgres
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
